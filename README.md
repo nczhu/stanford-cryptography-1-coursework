@@ -35,3 +35,27 @@ e.g. 2^-L is negligible bc 2^-L is smaller than (largeL)^const
 * Never use k more than once (both OTP and PRG)
 * Disk encryption: don’t use stream cipher (bc hardware semantics easy to guess)
 * Malleable, i.e. tampering with CT are undetected. Receiver can unknowingly get wrong msg.
+
+## Secure Ciphers
+
+### Advantage
+Def: `ADVprg[A, G] := | Pr[A(G(k))=1] - Pr[A(r)=1] |` where k subset of K, r is truly random
+* i.e. When A can distinguish when G is being used
+* If ADV close to one, then A can distinguish G from rand
+* Statistical test: any algo A s.t. A(x) outputs 0 (not random) or 1 (random)
+
+### Secure PRG
+Def: if there exists A s.t. ADVprg[A, G] is negligible
+* An unpreditable PRG is secure
+* Secure PRG is also unpredictable
+
+### Computational indistinguishable
+Def: P1 and P2 are two distr over (0,1), iff exists A s.t. `Pr[A(p0)=1] - Pr[A(p2)=1] is neg`
+
+### Semantic Security
+Def: E is sem-secure for all A, iff ADVss[A, E] is negligible
+* an adversary running in a reasonable amount of time can (or cannot) distinguish one message from another once encrypted
+* impt esp if input is binary, e.g. voting
+
+### Stream Ciphers are Sem-secure
+Def: `ADVss[A, E] <= 2 * ADVprg[B, G]`
