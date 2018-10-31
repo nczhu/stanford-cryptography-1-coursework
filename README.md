@@ -1,5 +1,5 @@
 # CS255 Course Notes
-## These notes accompany: https://www.coursera.org/learn/crypto/
+These notes accompany: https://www.coursera.org/learn/crypto/
 
 # Week 1
 
