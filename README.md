@@ -59,3 +59,8 @@ Def: E is sem-secure for all A, iff ADVss[A, E] is negligible
 
 ### Stream Ciphers are Sem-secure
 Def: `ADVss[A, E] <= 2 * ADVprg[B, G]`
+
+
+# Week 2
+
+
