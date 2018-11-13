@@ -47,7 +47,9 @@ def encrypt(key, msg):
     # print "Hex of '" + key + "' XOR '" + msg + "' is: " + c
     return c
 
-key = ""
+key = '*' * len(c_goal)
+print key
+
 # Hint: XOR the ciphertexts together, and consider what happens when a space is XORed with a character in [a-zA-Z].
 chars_list = [ chr(i) for i in range(65, 91) ]
 chars_list += [chr(i) for i in range(97, 123)]
