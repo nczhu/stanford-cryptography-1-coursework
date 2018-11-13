@@ -44,24 +44,24 @@ def strxor(a, b):
 def encrypt(key, msg):
     c = strxor(key, msg)
     c = c.encode('hex')
-    print "Hex of '" + key + "' XOR '" + msg + "' is: " + c
+    # print "Hex of '" + key + "' XOR '" + msg + "' is: " + c
     return c
 
-# Generates a set of space ^ [AZaz] to be used as a first decryption step
-# dec 32 to 127 is the range
-# space is 32, or 0x20
-
-# TODO: List of characters in Hex format
-
-# TODO: Set of " " XOR hex 
-print 'I expect a list of all hexs of chars in range 32-127'
-l = [ chr(i).encode('hex') for i in range(32, 127) ]
-print l
+key = ""
+# Hint: XOR the ciphertexts together, and consider what happens when a space is XORed with a character in [a-zA-Z].
+chars_list = [ chr(i) for i in range(65, 91) ]
+chars_list += [chr(i) for i in range(97, 123)]
+xor_space_set = set([ encrypt(char, " ") for char in chars_list])
 
 
-# code
+# function
 
+# Hint: c0 XOR c1 == m0 XOR m1
 
+# m0 XOR m1 , "a b" XOR "c d" => 00 space    
+# m0 XOR m2
+# m0 XOR m3
 
+# once there's a hit , also update key in the correct position i 
 
 # EXECUTION
