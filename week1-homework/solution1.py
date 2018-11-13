@@ -36,9 +36,9 @@ c_list = ['315c4eeaa8b5f8aaf9174145bf43e1784b8fa00dc71d885a804e5ee9fa40b16349c14
 # xor two strings of different lengths
 def strxor(a, b):     
     if len(a) > len(b):
-       return "".join([chr(ord(x) ^ ord(y)) for (x, y) in zip(a[:len(b)], b)])
+        return "".join([chr(ord(x) ^ ord(y)) for (x, y) in zip(a[:len(b)], b)])
     else:
-       return "".join([chr(ord(x) ^ ord(y)) for (x, y) in zip(a, b[:len(a)])])
+        return "".join([chr(ord(x) ^ ord(y)) for (x, y) in zip(a, b[:len(a)])])
 
 # Returns hex encoding of 'key' XOR 'msg', where len is of shorter str
 def encrypt(key, msg):
@@ -47,23 +47,58 @@ def encrypt(key, msg):
     # print "Hex of '" + key + "' XOR '" + msg + "' is: " + c
     return c
 
-key = '*' * len(c_goal)
-print key
-
+# Hint: c0 XOR c1 == m0 XOR m1
 # Hint: XOR the ciphertexts together, and consider what happens when a space is XORed with a character in [a-zA-Z].
 chars_list = [ chr(i) for i in range(65, 91) ]
 chars_list += [chr(i) for i in range(97, 123)]
 xor_space_set = set([ encrypt(char, " ") for char in chars_list])
 
+# Goal is to derive each * for the key
+key = '*' * len(c_goal)
+
+# Function: find_spaces_indeces
+# Input: Takes a list of (m XOR m)s
+# Output: Looks for char[i] where char == space, then solves for key[i]
+
+# todo: fix soemthing is wrong here
+def find_spaces_indeces(size, xor_list):
+    # iterate through every char in each string, as soon as position is not in set, i.e. not a space
+    # remove index from possible_pos_with_space set
+    possible_pos_with_space = set(range(0, size, 2))
+    
+    for xor_string in xor_list: 
+        # print "XOR string: "
+        # print xor_string
+        for i in range(0, len(xor_string), 2): 
+            char = xor_string[i:i+2] # e.g. 0x0e, this is what we're checking
+            # Check if char is in xor_space_set, and set still contains 
+            if char not in xor_space_set and i in possible_pos_with_space: 
+                possible_pos_with_space.remove(i)
+    
+    # This is a set of locations where there's a " " for this cipher
+    return possible_pos_with_space
+    # print "set:"
+    # print xor_space_set
+
 
 # function
+for m in c_list: 
+    # get a list of XORd strings
+    print "Now COMPUTING cipher: " + m
+    xor_list = [ encrypt(m.decode('hex'), n.decode('hex')) for n in c_list if m != n ]
+    spaces_indices = find_spaces_indeces(len(m), xor_list)
+    print spaces_indices
 
-# Hint: c0 XOR c1 == m0 XOR m1
+    for i in spaces_indices: 
+        char_k = encrypt( (m[i:i+2]).decode('hex'), '20'.decode('hex') )
+        print char_k
+        key = key[:i] + char_k + key[i+2:]
 
-# m0 XOR m1 , "a b" XOR "c d" => 00 space    
-# m0 XOR m2
-# m0 XOR m3
+    # TODO find key at these indices
+    # m ^ k = c, where we know m, and c so
+    # k = m ^ c... encrypt(char.decode('hex'), 0x20.decode('hex'))
+    print key
+    print "--------------------"
 
-# once there's a hit , also update key in the correct position i 
 
 # EXECUTION
